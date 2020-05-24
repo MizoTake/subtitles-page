@@ -1,11 +1,14 @@
 <template>
-  <div id="app" v-on:click="onClick"
+  <div id="app" 
+    v-scroll-lock="true"
+    v-on:click="onClick"
     v-bind:style="{ 
       width: windowWidth + 'px',
       height: windowHeight + 'px'
     }">
     <ul class="subtitles"
-      v-bind:style="{ 
+      v-bind:style="{
+        'font-size': fontSize + 'px',
         'margin-bottom': windowHeight / 2 + 'px'
       }">
       <li v-for="(str, index) in sliceText" :key="index">
@@ -15,11 +18,13 @@
     <overlaySettings ref="overlaySettings" 
     v-bind="{
       lineStrValue: lineStrValue,
-      viewableArrayIndex: viewableArrayIndex
+      viewableArrayIndex: viewableArrayIndex,
+      fontSize: fontSize
     }"
     v-on:disableOverlay="disableOverlayFromoverlaySettings"
     v-on:updateLineStrValue="updateLineStrValue"
-    v-on:updateviewableArrayIndex="updateviewableArrayIndex" />
+    v-on:updateviewableArrayIndex="updateviewableArrayIndex"
+    v-on:updateFontSize="updateFontSize" />
   </div>
 </template>
 
@@ -37,7 +42,8 @@ export default {
     overlay: false,
     overlaySettingsDisable: false,
     lineStrValue: 10,
-    viewableArrayIndex: 5
+    viewableArrayIndex: 5,
+    fontSize: 48
   }),
   computed: {
    sliceText: function () {
@@ -57,6 +63,8 @@ export default {
     handleResize: function() {
       this.windowWidth = window.innerWidth
       this.windowHeight = window.innerHeight
+      var container = this.$el.querySelector("#container")
+      container.scrollTop = this.windowHeight
     },
     onClick: function() {
       if (this.overlaySettingsDisable) {
@@ -75,6 +83,9 @@ export default {
     },
     updateviewableArrayIndex: function(value) {
       this.viewableArrayIndex = parseInt(value)
+    },
+    updateFontSize: function(value) {
+      this.fontSize = parseInt(value)
     },
     settingRecognition () {
       var recognition = new this.speechRecognition()

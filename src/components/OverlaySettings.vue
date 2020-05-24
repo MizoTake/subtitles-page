@@ -16,6 +16,13 @@
             @change="updateviewableArrayIndex"
           ></v-text-field>
         </v-col>
+        <v-col cols="12" sm="6" md="3">
+          <v-text-field
+            label="フォントサイズ"
+            v-bind:value="fontSize"
+            @change="updateFontSize"
+          ></v-text-field>
+        </v-col>
       </ul>
     </div>
   </div>
@@ -23,7 +30,7 @@
 
 <script>
 export default {
-  props: ['lineStrValue', 'viewableArrayIndex'],
+  props: ['lineStrValue', 'viewableArrayIndex', 'fontSize'],
   data: () => ({
     overlay: false,
   }),
@@ -40,6 +47,9 @@ export default {
     },
     updateviewableArrayIndex: function(value) {
       this.$emit("updateviewableArrayIndex", value)
+    },
+    updateFontSize: function(value) {
+      this.$emit("updateFontSize", value)
     }
   }
 };
