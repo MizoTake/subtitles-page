@@ -14,10 +14,12 @@
     </ul>
     <overlaySettings ref="overlaySettings" 
     v-bind="{
-      lineStrValue: lineStrValue
+      lineStrValue: lineStrValue,
+      viewableArrayIndex: viewableArrayIndex
     }"
     v-on:disableOverlay="disableOverlayFromoverlaySettings"
-    v-on:updateLineStrValue="updateLineStrValue" />
+    v-on:updateLineStrValue="updateLineStrValue"
+    v-on:updateviewableArrayIndex="updateviewableArrayIndex" />
   </div>
 </template>
 
@@ -70,6 +72,9 @@ export default {
     },
     updateLineStrValue: function(value) {
       this.lineStrValue = parseInt(value)
+    },
+    updateviewableArrayIndex: function(value) {
+      this.viewableArrayIndex = parseInt(value)
     },
     settingRecognition () {
       var recognition = new this.speechRecognition()

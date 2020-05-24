@@ -1,12 +1,19 @@
 <template>
   <div id="screen">
     <div id="overlay" v-if="overlay" v-on:click.self="disableOverlay">
-      <ul id="example-1">
+      <ul id="settings">
          <v-col cols="12" sm="6" md="3">
           <v-text-field
             label="一行あたりの文字数"
             v-bind:value="lineStrValue"
             @change="updateLineStrValue"
+          ></v-text-field>
+        </v-col>
+        <v-col cols="12" sm="6" md="3">
+          <v-text-field
+            label="表示する行数"
+            v-bind:value="viewableArrayIndex"
+            @change="updateviewableArrayIndex"
           ></v-text-field>
         </v-col>
       </ul>
@@ -16,7 +23,7 @@
 
 <script>
 export default {
-  props: ['lineStrValue'],
+  props: ['lineStrValue', 'viewableArrayIndex'],
   data: () => ({
     overlay: false,
   }),
@@ -30,6 +37,9 @@ export default {
     },
     updateLineStrValue: function(value) {
       this.$emit("updateLineStrValue", value)
+    },
+    updateviewableArrayIndex: function(value) {
+      this.$emit("updateviewableArrayIndex", value)
     }
   }
 };
