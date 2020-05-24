@@ -5,13 +5,14 @@
     v-bind:style="{ 
       width: windowWidth + 'px',
       height: windowHeight + 'px',
-      backgroundColor: colors.hex
+      'background-color': colors.hex
     }">
     <ul class="subtitles"
       v-bind:class="{ blurContent: overlay }"
       v-bind:style="{
         'font-size': fontSize + 'px',
-        'margin-bottom': windowHeight / 2 + 'px'
+        'margin-bottom': windowHeight / 2 + 'px',
+        'color': fontColors.hex
       }">
       <li v-for="(str, index) in sliceText" :key="index">
         {{ str }}
@@ -22,13 +23,15 @@
       lineStrValue: lineStrValue,
       viewableArrayIndex: viewableArrayIndex,
       fontSize: fontSize,
-      colors: colors
+      colors: colors,
+      fontColors: fontColors
     }"
     v-on:disableOverlay="disableOverlayFromoverlaySettings"
     v-on:updateLineStrValue="updateLineStrValue"
     v-on:updateviewableArrayIndex="updateviewableArrayIndex"
     v-on:updateFontSize="updateFontSize"
-    v-on:updateBackgroundColors="updateBackgroundColors" />
+    v-on:updateBackgroundColors="updateBackgroundColors"
+    v-on:updateFontColors="updateFontColors" />
   </div>
 </template>
 
@@ -49,6 +52,9 @@ export default {
     viewableArrayIndex: 5,
     fontSize: 48,
     colors: {
+      hex: '#ffffff'
+    },
+    fontColors: {
       hex: '#ffffff'
     }
   }),
@@ -96,6 +102,9 @@ export default {
     },
     updateBackgroundColors: function(value) {
       this.colors = value
+    },
+    updateFontColors: function(value) {
+      this.fontColors = value
     },
     settingRecognition () {
       var recognition = new this.speechRecognition()

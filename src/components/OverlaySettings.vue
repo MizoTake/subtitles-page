@@ -2,30 +2,40 @@
   <div id="screen">
     <div id="overlay" v-if="overlay" v-on:click.self="disableOverlay">
       <ul id="settings" class="settings" v-on:click.self="disableOverlay">
-         <v-col cols="12" sm="6" md="3">
-          <v-text-field
-            label="一行あたりの文字数"
-            v-bind:value="lineStrValue"
-            @change="updateLineStrValue"
-          ></v-text-field>
-        </v-col>
-        <v-col cols="12" sm="6" md="3">
-          <v-text-field
-            label="表示する行数"
-            v-bind:value="viewableArrayIndex"
-            @change="updateviewableArrayIndex"
-          ></v-text-field>
-        </v-col>
-        <v-col cols="12" sm="6" md="3">
-          <v-text-field
-            label="フォントサイズ"
-            v-bind:value="fontSize"
-            @change="updateFontSize"
-          ></v-text-field>
-        </v-col>
-        <v-col cols="12" sm="6" md="3">
-          <p>背景色の変更</p>
-          <chrome-picker v-model="pickerColor" @input="updateBackgroundColors"></chrome-picker>
+        <v-col cols="12" class="gridView" >
+          <v-row v-on:click.self="disableOverlay">
+            <v-col cols="12" sm="6" md="3">
+              <v-text-field
+                label="一行あたりの文字数"
+                v-bind:value="lineStrValue"
+                @change="updateLineStrValue"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="6" md="3">
+              <v-text-field
+                label="表示する行数"
+                v-bind:value="viewableArrayIndex"
+                @change="updateviewableArrayIndex"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="6" md="3">
+              <v-text-field
+                label="フォントサイズ"
+                v-bind:value="fontSize"
+                @change="updateFontSize"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row v-on:click.self="disableOverlay">
+            <v-col cols="12" sm="6" md="3">
+              <p>背景色の変更</p>
+              <chrome-picker v-model="pickerColor" @input="updateBackgroundColors"></chrome-picker>
+            </v-col>
+            <v-col cols="12" sm="6" md="3">
+              <p>文字色の変更</p>
+              <chrome-picker v-model="fontPickerColor" @input="updateFontColors"></chrome-picker>
+            </v-col>
+          </v-row>
         </v-col>
       </ul>
     </div>
@@ -36,13 +46,15 @@
 import {Chrome} from 'vue-color'
 
 export default {
-  props: ['lineStrValue', 'viewableArrayIndex', 'fontSize', 'colors'],
+  props: ['lineStrValue', 'viewableArrayIndex', 'fontSize', 'colors', 'fontColors'],
   data: () => ({
     overlay: false,
-    pickerColor: "#ffffff"
+    pickerColor: "#ffffff",
+    fontPickerColor: "#ffffff"
   }),
   created: function () {
     this.pickerColor = this.colors
+    this.fontPickerColor = this.fontSize
   },
   components: {
   'chrome-picker': Chrome,
@@ -66,6 +78,9 @@ export default {
     },
     updateBackgroundColors: function(value) {
       this.$emit("updateBackgroundColors", value)
+    },
+    updateFontColors: function(value) {
+      this.$emit("updateFontColors", value)
     }
   }
 };
