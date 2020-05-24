@@ -8,6 +8,7 @@
       backgroundColor: colors.hex
     }">
     <ul class="subtitles"
+      v-bind:class="{ blurContent: overlay }"
       v-bind:style="{
         'font-size': fontSize + 'px',
         'margin-bottom': windowHeight / 2 + 'px'
@@ -104,17 +105,14 @@ export default {
 
       recognition.addEventListener('start', () => {
         this.isFirstStarted = true
-        console.log(this.isFirstStarted)
       })
 
       recognition.addEventListener('result', event => {
         const stackText = Array.from(event.results).map(x => x[0]).map(x => x.transcript)
         this.currentText = stackText.join('。')
-        console.log(this.currentText)
       })
 
       recognition.addEventListener('end', () => {
-        console.log("end " + this.isFirstStarted)
         if (this.isFirstStarted) {
           recognition.start()
           this.isFirstStarted = false
@@ -143,11 +141,17 @@ export default {
 .subtitles {
 	text-align: center;
 }
+
 .subtitles-block {
 	text-align: center;
 }
+
 .subtitles-block li {
 	display: inline-block;
+}
+
+.blurContent {
+  filter: blur(6px);
 }
 
 </style>

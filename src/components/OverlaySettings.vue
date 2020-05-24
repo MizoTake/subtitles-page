@@ -23,8 +23,10 @@
             @change="updateFontSize"
           ></v-text-field>
         </v-col>
-        <p id="backgroundColorText">背景色の変更</p>
-        <chrome-picker v-model="colors" @input="updateBackgroundColors"></chrome-picker>
+        <v-col cols="12" sm="6" md="3">
+          <p>背景色の変更</p>
+          <chrome-picker v-model="pickerColor" @input="updateBackgroundColors"></chrome-picker>
+        </v-col>
       </ul>
     </div>
   </div>
@@ -36,11 +38,15 @@ import {Chrome} from 'vue-color'
 export default {
   props: ['lineStrValue', 'viewableArrayIndex', 'fontSize', 'colors'],
   data: () => ({
-    overlay: false
+    overlay: false,
+    pickerColor: "#ffffff"
   }),
+  created: function () {
+    this.pickerColor = this.colors
+  },
   components: {
-    'chrome-picker': Chrome,
-   },
+  'chrome-picker': Chrome,
+  },
   methods: {
     enableOverlay: function() {
       this.overlay = true;
@@ -71,6 +77,7 @@ export default {
   margin: 0;
   padding: 0;
 }
+
 .screen {
   position: absolute;
   top: 50%;
@@ -82,10 +89,6 @@ export default {
   opacity: 0;
 }
 
-#settings {
-  color:aqua
-}
-
 #overlay {
   z-index: 1;
   position: fixed;
@@ -93,7 +96,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(109, 109, 109, 0.5);
+  background-color: rgba(187, 187, 187, 0.8);
   align-items: center;
   justify-content: center;
 }
