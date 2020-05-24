@@ -4,7 +4,8 @@
     v-on:click="onClick"
     v-bind:style="{ 
       width: windowWidth + 'px',
-      height: windowHeight + 'px'
+      height: windowHeight + 'px',
+      backgroundColor: colors.hex
     }">
     <ul class="subtitles"
       v-bind:style="{
@@ -19,12 +20,14 @@
     v-bind="{
       lineStrValue: lineStrValue,
       viewableArrayIndex: viewableArrayIndex,
-      fontSize: fontSize
+      fontSize: fontSize,
+      colors: colors
     }"
     v-on:disableOverlay="disableOverlayFromoverlaySettings"
     v-on:updateLineStrValue="updateLineStrValue"
     v-on:updateviewableArrayIndex="updateviewableArrayIndex"
-    v-on:updateFontSize="updateFontSize" />
+    v-on:updateFontSize="updateFontSize"
+    v-on:updateBackgroundColors="updateBackgroundColors" />
   </div>
 </template>
 
@@ -43,7 +46,10 @@ export default {
     overlaySettingsDisable: false,
     lineStrValue: 10,
     viewableArrayIndex: 5,
-    fontSize: 48
+    fontSize: 48,
+    colors: {
+      hex: '#ffffff'
+    }
   }),
   computed: {
    sliceText: function () {
@@ -86,6 +92,9 @@ export default {
     },
     updateFontSize: function(value) {
       this.fontSize = parseInt(value)
+    },
+    updateBackgroundColors: function(value) {
+      this.colors = value
     },
     settingRecognition () {
       var recognition = new this.speechRecognition()

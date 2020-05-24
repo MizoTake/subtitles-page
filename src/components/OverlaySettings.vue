@@ -1,7 +1,7 @@
 <template>
   <div id="screen">
     <div id="overlay" v-if="overlay" v-on:click.self="disableOverlay">
-      <ul id="settings">
+      <ul id="settings" class="settings" v-on:click.self="disableOverlay">
          <v-col cols="12" sm="6" md="3">
           <v-text-field
             label="一行あたりの文字数"
@@ -23,17 +23,24 @@
             @change="updateFontSize"
           ></v-text-field>
         </v-col>
+        <p id="backgroundColorText">背景色の変更</p>
+        <chrome-picker v-model="colors" @input="updateBackgroundColors"></chrome-picker>
       </ul>
     </div>
   </div>
 </template>
 
 <script>
+import {Chrome} from 'vue-color'
+
 export default {
-  props: ['lineStrValue', 'viewableArrayIndex', 'fontSize'],
+  props: ['lineStrValue', 'viewableArrayIndex', 'fontSize', 'colors'],
   data: () => ({
-    overlay: false,
+    overlay: false
   }),
+  components: {
+    'chrome-picker': Chrome,
+   },
   methods: {
     enableOverlay: function() {
       this.overlay = true;
@@ -50,6 +57,9 @@ export default {
     },
     updateFontSize: function(value) {
       this.$emit("updateFontSize", value)
+    },
+    updateBackgroundColors: function(value) {
+      this.$emit("updateBackgroundColors", value)
     }
   }
 };
@@ -70,6 +80,10 @@ export default {
   width: 100%;
   height: 100%;
   opacity: 0;
+}
+
+#settings {
+  color:aqua
 }
 
 #overlay {
