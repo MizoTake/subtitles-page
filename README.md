@@ -11,3 +11,7 @@
 画面をクリックするとオプションメニューが出るので好きなように変えてください。
 
 ![](./resources/img1.jpg)
+
+## Copyright
+
+[Copyright](./Copyright.md)
