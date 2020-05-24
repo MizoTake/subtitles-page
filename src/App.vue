@@ -1,6 +1,5 @@
 <template>
   <div id="app" 
-    v-scroll-lock="true"
     v-on:click="onClick"
     v-bind:style="{ 
       width: windowWidth + 'px',
@@ -11,10 +10,14 @@
       v-bind:class="{ blurContent: overlay }"
       v-bind:style="{
         'font-size': fontSize + 'px',
-        'margin-bottom': windowHeight / 2 + 'px',
+        'padding-bottom': windowHeight / 2 + 'px',
+        'height': windowHeight / 2 + 'px',
         'color': fontColors.hex
       }">
-      <li v-for="(str, index) in sliceText" :key="index">
+      <li v-for="(str, index) in sliceText" :key="index"
+        v-bind:style="{
+          'padding-top': listMargn + 'px',
+        }">
         {{ str }}
       </li>
     </ul>
@@ -24,14 +27,16 @@
       viewableArrayIndex: viewableArrayIndex,
       fontSize: fontSize,
       colors: colors,
-      fontColors: fontColors
+      fontColors: fontColors,
+      listMargn: listMargn
     }"
     v-on:disableOverlay="disableOverlayFromoverlaySettings"
     v-on:updateLineStrValue="updateLineStrValue"
     v-on:updateviewableArrayIndex="updateviewableArrayIndex"
     v-on:updateFontSize="updateFontSize"
     v-on:updateBackgroundColors="updateBackgroundColors"
-    v-on:updateFontColors="updateFontColors" />
+    v-on:updateFontColors="updateFontColors"
+    v-on:updateListMargin="updateListMargin" />
   </div>
 </template>
 
@@ -49,14 +54,15 @@ export default {
     overlay: false,
     overlaySettingsDisable: false,
     lineStrValue: 10,
-    viewableArrayIndex: 5,
+    viewableArrayIndex: 3,
     fontSize: 48,
     colors: {
       hex: '#ffffff'
     },
     fontColors: {
-      hex: '#ffffff'
-    }
+      hex: '#000000'
+    },
+    listMargn: 20
   }),
   computed: {
    sliceText: function () {
@@ -77,7 +83,9 @@ export default {
       this.windowWidth = window.innerWidth
       this.windowHeight = window.innerHeight
       var container = this.$el.querySelector("#container")
-      container.scrollTop = this.windowHeight
+      if (container !== null) {
+        container.scrollTop = this.windowHeight
+      }
     },
     onClick: function() {
       if (this.overlaySettingsDisable) {
@@ -105,6 +113,9 @@ export default {
     },
     updateFontColors: function(value) {
       this.fontColors = value
+    },
+    updateListMargin: function(value) {
+      this.listMargn = value
     },
     settingRecognition () {
       var recognition = new this.speechRecognition()

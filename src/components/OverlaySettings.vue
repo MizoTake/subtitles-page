@@ -25,6 +25,13 @@
                 @change="updateFontSize"
               ></v-text-field>
             </v-col>
+            <v-col cols="12" sm="6" md="3">
+              <v-text-field
+                label="行の間隔"
+                v-bind:value="listMargn"
+                @change="updateListMargin"
+              ></v-text-field>
+            </v-col>
           </v-row>
           <v-row v-on:click.self="disableOverlay">
             <v-col cols="12" sm="6" md="3">
@@ -46,7 +53,7 @@
 import {Chrome} from 'vue-color'
 
 export default {
-  props: ['lineStrValue', 'viewableArrayIndex', 'fontSize', 'colors', 'fontColors'],
+  props: ['lineStrValue', 'viewableArrayIndex', 'fontSize', 'colors', 'fontColors', 'listMargn'],
   data: () => ({
     overlay: false,
     pickerColor: "#ffffff",
@@ -81,6 +88,9 @@ export default {
     },
     updateFontColors: function(value) {
       this.$emit("updateFontColors", value)
+    },
+    updateListMargin: function(value) {
+      this.$emit("updateListMargin", value)
     }
   }
 };
