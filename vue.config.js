@@ -2,5 +2,11 @@ module.exports = {
   "transpileDependencies": [
     "vuetify"
   ],
-  publicPath: ''
+  publicPath: '',
+  pages: {
+    index: {
+      entry: 'src/main.js',
+      title: 'リアルタイム字幕',
+    }
+  }
 }

@@ -144,7 +144,7 @@ export default {
   },
   mounted () {
     if (!this.speechRecognition) {
-      alert('Chromeをお使いください。')
+      alert('ChromeなどのSpeechRecognitionに対応したブラウザをお使いください。')
       return
     }
     this.settingRecognition()
