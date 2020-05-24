@@ -6,7 +6,7 @@ module.exports = {
   pages: {
     index: {
       entry: 'src/main.js',
-      title: 'リアルタイム字幕',
+      title: 'Zimack',
     }
   }
 }

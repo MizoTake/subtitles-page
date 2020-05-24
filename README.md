@@ -1,24 +1,13 @@
-# subtitles-page
+# Zimack
 
-## Project setup
-```
-yarn install
-```
+リアルタイムに字幕を起こしてくれるZimackです。
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+![](./resources/demo.gif)
 
-### Compiles and minifies for production
-```
-yarn build
-```
+[こちら](https://mizotake.github.io/subtitles-page/dist/) からアクセスできます。
 
-### Lints and fixes files
-```
-yarn lint
-```
+マイクの権限を許可してもらえれば話した言葉がテキストとして表示されます。
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+画面をクリックするとオプションメニューが出るので好きなように変えてください。
+
+![](./resources/img1.jpg)
