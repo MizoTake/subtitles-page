@@ -1,7 +1,13 @@
 <template>
   <div id="app" v-on:click="onClick"
-    v-bind:style="{ width: windowWidth + 'px', height: windowHeight + 'px' }">
-    <ul class="subtitles">
+    v-bind:style="{ 
+      width: windowWidth + 'px',
+      height: windowHeight + 'px'
+    }">
+    <ul class="subtitles"
+      v-bind:style="{ 
+        'margin-bottom': windowHeight / 2 + 'px'
+      }">
       <li v-for="(str, index) in sliceText" :key="index">
         {{ str }}
       </li>
@@ -24,18 +30,25 @@ export default {
     speechRecognition: window.SpeechRecognition || window.webkitSpeechRecognition,
     windowWidth: window.innerWidth,
     windowHeight: window.innerHeight,
+    isFirstStarted: false,
     currentText: '',
     overlay: false,
     overlaySettingsDisable: false,
-    lineStrValue: 10
+    lineStrValue: 10,
+    viewableArrayIndex: 5
   }),
   computed: {
    sliceText: function () {
       const result = []
+      const temp = []
       for (let i = 0; i < this.currentText.length; i += this.lineStrValue) {
-        result.push(this.currentText.slice(i, i + this.lineStrValue))
+        temp.push(this.currentText.slice(i, i + this.lineStrValue))
       }
-      return result
+      temp.reverse()
+      for (let i = 0; i<this.viewableArrayIndex; i++) {
+        result.push(temp[i])
+      }
+      return result.reverse()
     }
   },
   methods: {
@@ -64,17 +77,23 @@ export default {
       recognition.interimResults = true
       recognition.continuous = true
 
+      recognition.addEventListener('start', () => {
+        this.isFirstStarted = true
+        console.log(this.isFirstStarted)
+      })
+
       recognition.addEventListener('result', event => {
         const stackText = Array.from(event.results).map(x => x[0]).map(x => x.transcript)
         this.currentText = stackText.join('。')
-        this.lineStrArray = []
-        for (let i = 0; i < this.currentText.length; i += this.lineStrValue) {
-          this.lineStrArray.push(this.currentText.slice(i, i + this.lineStrValue))
-        }
+        console.log(this.currentText)
       })
 
-      recognition.addEventListener('speechend', () => {
-        // recognition.start()
+      recognition.addEventListener('end', () => {
+        console.log("end " + this.isFirstStarted)
+        if (this.isFirstStarted) {
+          recognition.start()
+          this.isFirstStarted = false
+        }
       })
 
       recognition.start()
