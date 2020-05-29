@@ -34,14 +34,14 @@
             </v-col>
           </v-row>
           <v-row v-on:click.self="disableOverlay">
-            <v-col cols="12" sm="6" md="3">
-              <p>背景色の変更</p>
-              <chrome-picker v-model="pickerColor" @input="updateBackgroundColors"></chrome-picker>
-            </v-col>
-            <v-col cols="12" sm="6" md="3">
-              <p>文字色の変更</p>
-              <chrome-picker v-model="fontPickerColor" @input="updateFontColors"></chrome-picker>
-            </v-col>
+            <colorPicker v-bind="{
+              pickerText: '背景色の変更', 
+              pickerValue: pickerColor }"
+              v-on:changedValue="updateBackgroundColors" />
+            <colorPicker v-bind="{
+              pickerText: '文字色の変更', 
+              pickerValue: fontPickerColor }"
+              v-on:changedValue="updateFontColors" />
           </v-row>
         </v-col>
       </ul>
@@ -50,7 +50,8 @@
 </template>
 
 <script>
-import {Chrome} from 'vue-color'
+import colorPicker from './MenuItems/ColorPicker.vue'
+import textFiled from './MenuItems/TextField.vue'
 
 export default {
   props: ['lineStrValue', 'viewableArrayIndex', 'fontSize', 'colors', 'fontColors', 'listMargn'],
@@ -62,9 +63,6 @@ export default {
   created: function () {
     this.pickerColor = this.colors
     this.fontPickerColor = this.fontSize
-  },
-  components: {
-  'chrome-picker': Chrome,
   },
   methods: {
     enableOverlay: function() {
@@ -92,7 +90,9 @@ export default {
     updateListMargin: function(value) {
       this.$emit("updateListMargin", value)
     }
-  }
+  },
+  components: { colorPicker }
+
 };
 </script>
 
