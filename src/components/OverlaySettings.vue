@@ -1,6 +1,6 @@
 <template>
-  <div id="screen">
-    <div id="overlay" v-if="overlay" v-on:click.self="disableOverlay"
+  <div id="screen" v-if="overlay" v-on:click.self="disableOverlay">
+    <div id="overlay" 
         v-bind:style="{
           'height': overlayHeight + 'px'
         }">
@@ -95,21 +95,12 @@ export default {
 </script>
 
 <style>
-.screen * {
-  border: 0;
-  margin: 0;
-  padding: 0;
-}
-
-.screen {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+#screen {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  opacity: 0;
 }
 
 #overlay {
