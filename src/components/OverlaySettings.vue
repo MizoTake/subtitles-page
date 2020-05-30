@@ -1,6 +1,9 @@
 <template>
   <div id="screen">
-    <div id="overlay" v-if="overlay" v-on:click.self="disableOverlay">
+    <div id="overlay" v-if="overlay" v-on:click.self="disableOverlay"
+        v-bind:style="{
+          'height': overlayHeight + 'px'
+        }">
       <ul id="settings" class="settings" v-on:click.self="disableOverlay">
         <v-col cols="12" class="gridView" >
           <v-row v-on:click.self="disableOverlay">
@@ -42,7 +45,7 @@ import colorPicker from './MenuItems/ColorPicker.vue'
 import textFiled from './MenuItems/TextField.vue'
 
 export default {
-  props: ['dataProperty'],
+  props: ['dataProperty', 'overlayHeight'],
   data: () => ({
     overlay: false,
     dataPropertyChanged: null
@@ -59,15 +62,15 @@ export default {
       this.$emit("disableOverlay")
     },
     updateLineStrValue(value) {
-      this.dataPropertyChanged.lineStrValue = value
+      this.dataPropertyChanged.lineStrValue = parseInt(value)
       this.updateNotify()
     },
     updateviewableArrayIndex(value) {
-      this.dataPropertyChanged.viewableArrayIndex = value
+      this.dataPropertyChanged.viewableArrayIndex = parseInt(value)
       this.updateNotify()
     },
     updateFontSize(value) {
-      this.dataPropertyChanged.fontSize = value
+      this.dataPropertyChanged.fontSize = parseInt(value)
       this.updateNotify()
     },
     updateBackgroundColors(value) {
@@ -79,7 +82,7 @@ export default {
       this.updateNotify()
     },
     updateListMargin(value) {
-      this.dataPropertyChanged.listMargn = value
+      this.dataPropertyChanged.listMargn = parseInt(value)
       this.updateNotify()
     },
     updateNotify() {
@@ -115,7 +118,6 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  height: 80%;
   background-color: rgba(187, 187, 187, 0.8);
   align-items: center;
   justify-content: center;

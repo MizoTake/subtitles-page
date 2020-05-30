@@ -23,7 +23,8 @@
     </ul>
     <overlaySettings ref="overlaySettings" 
     v-bind="{
-      dataProperty: dataProperty
+      dataProperty: dataProperty,
+      overlayHeight: overlayHeight
     }"
     v-on:disableOverlay="disableOverlayFromoverlaySettings"
     v-on:updateDataProperty="updateDataProperty"/>
@@ -58,17 +59,21 @@ export default {
     dataProperty: null
   }),
   computed: {
-   sliceText() {
+    sliceText() {
       const result = []
       const temp = []
-      for (let i = 0; i < this.currentText.length; i += this.dataProperty.lineStrValue) {
-        temp.push(this.currentText.slice(i, i + this.dataProperty.lineStrValue))
+      const lineStrValue = parseInt(this.dataProperty.lineStrValue)
+      for (let i = 0; i < this.currentText.length; i += lineStrValue) {
+        temp.push(this.currentText.slice(i, i + lineStrValue))
       }
       temp.reverse()
       for (let i = 0; i<this.dataProperty.viewableArrayIndex; i++) {
         result.push(temp[i])
       }
       return result
+    },
+    overlayHeight() {
+      return window.innerHeight - this.dataPropertyInit.fontSize * 2
     }
   },
   methods: {
