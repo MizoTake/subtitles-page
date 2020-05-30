@@ -47,42 +47,42 @@ export default {
     overlay: false,
     dataPropertyChanged: null
   }),
-  created: function () {
+  created() {
       this.dataPropertyChanged = this.dataProperty
   },
   methods: {
-    enableOverlay: function() {
+    enableOverlay() {
       this.overlay = true;
     },
-    disableOverlay: function() {
+    disableOverlay() {
       this.overlay = false;
       this.$emit("disableOverlay")
     },
-    updateLineStrValue: function(value) {
+    updateLineStrValue(value) {
       this.dataPropertyChanged.lineStrValue = value
       this.updateNotify()
     },
-    updateviewableArrayIndex: function(value) {
+    updateviewableArrayIndex(value) {
       this.dataPropertyChanged.viewableArrayIndex = value
       this.updateNotify()
     },
-    updateFontSize: function(value) {
+    updateFontSize(value) {
       this.dataPropertyChanged.fontSize = value
       this.updateNotify()
     },
-    updateBackgroundColors: function(value) {
+    updateBackgroundColors(value) {
       this.dataPropertyChanged.colors = value
       this.updateNotify()
     },
-    updateFontColors: function(value) {
+    updateFontColors(value) {
       this.dataPropertyChanged.fontColors = value
       this.updateNotify()
     },
-    updateListMargin: function(value) {
+    updateListMargin(value) {
       this.dataPropertyChanged.listMargn = value
       this.updateNotify()
     },
-    updateNotify: function() {
+    updateNotify() {
       this.$emit("updateDataProperty", this.dataPropertyChanged)
     }
   },

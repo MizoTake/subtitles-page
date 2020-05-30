@@ -10,11 +10,11 @@ import {Chrome} from 'vue-color'
 
 export default {
     props: ['pickerText', 'pickerValue'],
-    created: function () {
+    created() {
         this.pickerColorValue = this.pickerValue
     },
     methods: {
-        changedValue: function(value) {
+        changedValue(value) {
             this.$emit("changedValue", value)
         }
     },

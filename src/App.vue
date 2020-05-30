@@ -43,7 +43,7 @@ export default {
     currentText: '',
     overlay: false,
     overlaySettingsDisable: false,
-    dataProperty: {
+    dataPropertyInit: {
       lineStrValue: 10,
       viewableArrayIndex: 3,
       fontSize: 48,
@@ -55,9 +55,10 @@ export default {
       },
       listMargn: 20
     },
+    dataProperty: null
   }),
   computed: {
-   sliceText: function () {
+   sliceText() {
       const result = []
       const temp = []
       for (let i = 0; i < this.currentText.length; i += this.dataProperty.lineStrValue) {
@@ -71,7 +72,7 @@ export default {
     }
   },
   methods: {
-    handleResize: function() {
+    handleResize() {
       this.windowWidth = window.innerWidth
       this.windowHeight = window.innerHeight
       var container = this.$el.querySelector("#container")
@@ -79,7 +80,7 @@ export default {
         container.scrollTop = this.windowHeight
       }
     },
-    onClick: function() {
+    onClick() {
       if (this.overlaySettingsDisable) {
         this.overlaySettingsDisable = false
         return
@@ -87,14 +88,16 @@ export default {
       this.overlay = true
       this.$refs.overlaySettings.enableOverlay()
     },
-    disableOverlayFromoverlaySettings: function() {
+    disableOverlayFromoverlaySettings() {
       this.overlay = false
       this.overlaySettingsDisable = true
     },
-    updateDataProperty: function(value) {
+    updateDataProperty(value) {
       this.dataProperty = value
+      const parsed = JSON.stringify(this.dataProperty);
+      localStorage.setItem('dataProperty', parsed);
     },
-    settingStartRecognition () {
+    settingStartRecognition() {
       var recognition = new this.speechRecognition()
       recognition.lang = 'ja-JP'
       recognition.interimResults = true
@@ -117,6 +120,16 @@ export default {
       })
 
       recognition.start()
+    },
+  },
+  created() {
+    if (localStorage.getItem('dataProperty')) {
+      try {
+        this.dataProperty = JSON.parse(localStorage.getItem('dataProperty'));
+      // eslint-disable-next-line no-empty
+      } catch(e) { }
+    } else {
+      this.dataProperty = this.dataPropertyInit
     }
   },
   mounted () {

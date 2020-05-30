@@ -12,7 +12,7 @@
 export default {
     props: ['labelText', 'labelValue'],
     methods: {
-        changedValue: function(value) {
+        changedValue(value) {
         this.$emit("changedValue", value)
         }
     }
