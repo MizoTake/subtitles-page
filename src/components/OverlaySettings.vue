@@ -4,43 +4,31 @@
       <ul id="settings" class="settings" v-on:click.self="disableOverlay">
         <v-col cols="12" class="gridView" >
           <v-row v-on:click.self="disableOverlay">
-            <v-col cols="12" sm="6" md="3">
-              <v-text-field
-                label="一行あたりの文字数"
-                v-bind:value="lineStrValue"
-                @change="updateLineStrValue"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="6" md="3">
-              <v-text-field
-                label="表示する行数"
-                v-bind:value="viewableArrayIndex"
-                @change="updateviewableArrayIndex"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="6" md="3">
-              <v-text-field
-                label="フォントサイズ"
-                v-bind:value="fontSize"
-                @change="updateFontSize"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="6" md="3">
-              <v-text-field
-                label="行の間隔"
-                v-bind:value="listMargn"
-                @change="updateListMargin"
-              ></v-text-field>
-            </v-col>
+            <textFiled v-bind="{
+              labelText: '一行あたりの文字数', 
+              labelValue: dataProperty.lineStrValue }"
+              v-on:changedValue="updateLineStrValue" />
+            <textFiled v-bind="{
+              labelText: '表示する行数', 
+              labelValue: dataProperty.viewableArrayIndex }"
+              v-on:changedValue="updateviewableArrayIndex" />
+            <textFiled v-bind="{
+              labelText: 'フォントサイズ', 
+              labelValue: dataProperty.fontSize }"
+              v-on:changedValue="updateFontSize" />
+            <textFiled v-bind="{
+              labelText: '行の間隔', 
+              labelValue: dataProperty.listMargn }"
+              v-on:changedValue="updateListMargin" />
           </v-row>
           <v-row v-on:click.self="disableOverlay">
             <colorPicker v-bind="{
               pickerText: '背景色の変更', 
-              pickerValue: pickerColor }"
+              pickerValue: dataProperty.colors }"
               v-on:changedValue="updateBackgroundColors" />
             <colorPicker v-bind="{
               pickerText: '文字色の変更', 
-              pickerValue: fontPickerColor }"
+              pickerValue: dataProperty.fontColors }"
               v-on:changedValue="updateFontColors" />
           </v-row>
         </v-col>
@@ -54,15 +42,13 @@ import colorPicker from './MenuItems/ColorPicker.vue'
 import textFiled from './MenuItems/TextField.vue'
 
 export default {
-  props: ['lineStrValue', 'viewableArrayIndex', 'fontSize', 'colors', 'fontColors', 'listMargn'],
+  props: ['dataProperty'],
   data: () => ({
     overlay: false,
-    pickerColor: "#ffffff",
-    fontPickerColor: "#ffffff"
+    dataPropertyChanged: null
   }),
   created: function () {
-    this.pickerColor = this.colors
-    this.fontPickerColor = this.fontSize
+      this.dataPropertyChanged = this.dataProperty
   },
   methods: {
     enableOverlay: function() {
@@ -73,25 +59,34 @@ export default {
       this.$emit("disableOverlay")
     },
     updateLineStrValue: function(value) {
-      this.$emit("updateLineStrValue", value)
+      this.dataPropertyChanged.lineStrValue = value
+      this.updateNotify()
     },
     updateviewableArrayIndex: function(value) {
-      this.$emit("updateviewableArrayIndex", value)
+      this.dataPropertyChanged.viewableArrayIndex = value
+      this.updateNotify()
     },
     updateFontSize: function(value) {
-      this.$emit("updateFontSize", value)
+      this.dataPropertyChanged.fontSize = value
+      this.updateNotify()
     },
     updateBackgroundColors: function(value) {
-      this.$emit("updateBackgroundColors", value)
+      this.dataPropertyChanged.colors = value
+      this.updateNotify()
     },
     updateFontColors: function(value) {
-      this.$emit("updateFontColors", value)
+      this.dataPropertyChanged.fontColors = value
+      this.updateNotify()
     },
     updateListMargin: function(value) {
-      this.$emit("updateListMargin", value)
+      this.dataPropertyChanged.listMargn = value
+      this.updateNotify()
+    },
+    updateNotify: function() {
+      this.$emit("updateDataProperty", this.dataPropertyChanged)
     }
   },
-  components: { colorPicker }
+  components: { colorPicker, textFiled }
 
 };
 </script>
@@ -120,7 +115,7 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 80%;
   background-color: rgba(187, 187, 187, 0.8);
   align-items: center;
   justify-content: center;

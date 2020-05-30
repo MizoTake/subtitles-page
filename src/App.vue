@@ -4,39 +4,29 @@
     v-bind:style="{ 
       width: windowWidth + 'px',
       height: windowHeight + 'px',
-      'background-color': colors.hex
+      'background-color': dataProperty.colors.hex
     }">
     <ul class="subtitles"
       v-bind:class="{ blurContent: overlay }"
       v-bind:style="{
-        'font-size': fontSize + 'px',
-        'padding-bottom': windowHeight / 2 + 'px',
-        'height': windowHeight / 2 + 'px',
-        'color': fontColors.hex
+        'font-size': dataProperty.fontSize + 'px',
+        'height': windowHeight + 'px',
+        'color': dataProperty.fontColors.hex
       }">
       <li v-for="(str, index) in sliceText" :key="index"
         v-bind:style="{
-          'padding-top': listMargn + 'px',
+          'padding-top': dataProperty.listMargn + 'px',
+          'bottom': index * dataProperty.fontSize * 2 + 'px'
         }">
         {{ str }}
       </li>
     </ul>
     <overlaySettings ref="overlaySettings" 
     v-bind="{
-      lineStrValue: lineStrValue,
-      viewableArrayIndex: viewableArrayIndex,
-      fontSize: fontSize,
-      colors: colors,
-      fontColors: fontColors,
-      listMargn: listMargn
+      dataProperty: dataProperty
     }"
     v-on:disableOverlay="disableOverlayFromoverlaySettings"
-    v-on:updateLineStrValue="updateLineStrValue"
-    v-on:updateviewableArrayIndex="updateviewableArrayIndex"
-    v-on:updateFontSize="updateFontSize"
-    v-on:updateBackgroundColors="updateBackgroundColors"
-    v-on:updateFontColors="updateFontColors"
-    v-on:updateListMargin="updateListMargin" />
+    v-on:updateDataProperty="updateDataProperty"/>
   </div>
 </template>
 
@@ -53,29 +43,31 @@ export default {
     currentText: '',
     overlay: false,
     overlaySettingsDisable: false,
-    lineStrValue: 10,
-    viewableArrayIndex: 3,
-    fontSize: 48,
-    colors: {
-      hex: '#ffffff'
+    dataProperty: {
+      lineStrValue: 10,
+      viewableArrayIndex: 3,
+      fontSize: 48,
+      colors: {
+        hex: '#ffffff'
+      },
+      fontColors: {
+        hex: '#000000'
+      },
+      listMargn: 20
     },
-    fontColors: {
-      hex: '#000000'
-    },
-    listMargn: 20
   }),
   computed: {
    sliceText: function () {
       const result = []
       const temp = []
-      for (let i = 0; i < this.currentText.length; i += this.lineStrValue) {
-        temp.push(this.currentText.slice(i, i + this.lineStrValue))
+      for (let i = 0; i < this.currentText.length; i += this.dataProperty.lineStrValue) {
+        temp.push(this.currentText.slice(i, i + this.dataProperty.lineStrValue))
       }
       temp.reverse()
-      for (let i = 0; i<this.viewableArrayIndex; i++) {
+      for (let i = 0; i<this.dataProperty.viewableArrayIndex; i++) {
         result.push(temp[i])
       }
-      return result.reverse()
+      return result
     }
   },
   methods: {
@@ -99,25 +91,10 @@ export default {
       this.overlay = false
       this.overlaySettingsDisable = true
     },
-    updateLineStrValue: function(value) {
-      this.lineStrValue = parseInt(value)
+    updateDataProperty: function(value) {
+      this.dataProperty = value
     },
-    updateviewableArrayIndex: function(value) {
-      this.viewableArrayIndex = parseInt(value)
-    },
-    updateFontSize: function(value) {
-      this.fontSize = parseInt(value)
-    },
-    updateBackgroundColors: function(value) {
-      this.colors = value
-    },
-    updateFontColors: function(value) {
-      this.fontColors = value
-    },
-    updateListMargin: function(value) {
-      this.listMargn = value
-    },
-    settingRecognition () {
+    settingStartRecognition () {
       var recognition = new this.speechRecognition()
       recognition.lang = 'ja-JP'
       recognition.interimResults = true
@@ -147,7 +124,7 @@ export default {
       alert('ChromeなどのSpeechRecognitionに対応したブラウザをお使いください。')
       return
     }
-    this.settingRecognition()
+    this.settingStartRecognition()
     window.addEventListener("resize", this.handleResize)
   },
   beforeDestroy: function() {
@@ -162,16 +139,13 @@ export default {
 	text-align: center;
 }
 
-.subtitles-block {
-	text-align: center;
-}
-
-.subtitles-block li {
-	display: inline-block;
+.subtitles li {
+  position: absolute;
+  width: 100%;
 }
 
 .blurContent {
-  filter: blur(6px);
+  /* filter: blur(6px); */
 }
 
 </style>
