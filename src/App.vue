@@ -16,7 +16,7 @@
       <li v-for="(str, index) in sliceText" :key="index"
         v-bind:style="{
           'padding-top': dataProperty.listMargn + 'px',
-          'bottom': index * dataProperty.fontSize * 2 + 'px'
+          'bottom': index * cellHeight + 'px'
         }">
         {{ str }}
       </li>
@@ -72,8 +72,11 @@ export default {
       }
       return result
     },
+    cellHeight() {
+      return (parseFloat(this.dataProperty.fontSize) * 2) + parseFloat(this.dataProperty.listMargn)
+    },
     overlayHeight() {
-      return window.innerHeight - this.dataPropertyInit.fontSize * 2
+      return window.innerHeight - this.cellHeight
     }
   },
   methods: {
