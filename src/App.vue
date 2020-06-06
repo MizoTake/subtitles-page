@@ -18,7 +18,7 @@
           'padding-top': dataProperty.listMargn + 'px',
           'bottom': index * cellHeight + 'px'
         }">
-        {{ str }}
+        <p v-html="str" />
       </li>
     </ul>
     <overlaySettings ref="overlaySettings" 
@@ -54,6 +54,26 @@ export default {
       fontColors: {
         hex: '#000000'
       },
+      changeColorText: [
+        {
+          text: "",
+          color: {
+            hex: '#000000'
+          }
+        },
+        {
+          text: "",
+          color: {
+            hex: '#000000'
+          }
+        },
+        {
+          text: "",
+          color: {
+            hex: '#000000'
+          }
+        }
+      ],
       listMargn: 20
     },
     dataProperty: null
@@ -68,7 +88,19 @@ export default {
       }
       temp.reverse()
       for (let i = 0; i<this.dataProperty.viewableArrayIndex; i++) {
-        result.push(temp[i])
+        let tempElement = `${temp[i]}`
+        if (this.dataProperty.changeColorText) {
+          for (let j = 0; j<this.dataProperty.changeColorText.length; j++) {
+            let changeTarget = this.dataProperty.changeColorText[j]
+            if (changeTarget !== undefined) {
+              tempElement = tempElement.split(changeTarget.text).join(`<font color="${changeTarget.color.hex}">${changeTarget.text}</font>`)
+            }
+          }
+        }
+        if (tempElement === "undefined") {
+          tempElement = ''
+        }
+        result.push(tempElement)
       }
       return result
     },
@@ -164,9 +196,4 @@ export default {
   position: absolute;
   width: 100%;
 }
-
-.blurContent {
-  /* filter: blur(6px); */
-}
-
 </style>

@@ -1,6 +1,6 @@
 <template>
     <v-col cols="12" sm="6" md="3">
-        <p> {{ pickerText }}</p>
+        <p> {{ pickerText }} </p>
         <chrome-picker v-model="pickerColorValue" @input="changedValue"></chrome-picker>
     </v-col>
 </template>

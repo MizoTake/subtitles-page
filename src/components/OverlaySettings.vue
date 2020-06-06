@@ -8,31 +8,51 @@
         <v-col cols="12" class="gridView" >
           <v-row v-on:click.self="disableOverlay">
             <textFiled v-bind="{
-              labelText: '一行あたりの文字数', 
-              labelValue: dataProperty.lineStrValue }"
+                labelText: '一行あたりの文字数', 
+                labelValue: dataProperty.lineStrValue
+              }"
               v-on:changedValue="updateLineStrValue" />
             <textFiled v-bind="{
-              labelText: '表示する行数', 
-              labelValue: dataProperty.viewableArrayIndex }"
+                labelText: '表示する行数', 
+                labelValue: dataProperty.viewableArrayIndex 
+              }"
               v-on:changedValue="updateviewableArrayIndex" />
             <textFiled v-bind="{
-              labelText: 'フォントサイズ', 
-              labelValue: dataProperty.fontSize }"
+                labelText: 'フォントサイズ', 
+                labelValue: dataProperty.fontSize
+              }"
               v-on:changedValue="updateFontSize" />
             <textFiled v-bind="{
-              labelText: '行の間隔', 
-              labelValue: dataProperty.listMargn }"
+                labelText: '行の間隔', 
+                labelValue: dataProperty.listMargn
+              }"
               v-on:changedValue="updateListMargin" />
           </v-row>
           <v-row v-on:click.self="disableOverlay">
             <colorPicker v-bind="{
-              pickerText: '背景色の変更', 
-              pickerValue: dataProperty.colors }"
+                pickerText: '背景色の変更', 
+                pickerValue: dataProperty.colors
+              }"
               v-on:changedValue="updateBackgroundColors" />
             <colorPicker v-bind="{
-              pickerText: '文字色の変更', 
-              pickerValue: dataProperty.fontColors }"
+                pickerText: '文字色の変更', 
+                pickerValue: dataProperty.fontColors
+              }"
               v-on:changedValue="updateFontColors" />
+            <v-col cols="12" sm="6" md="3">
+              <v-expansion-panels accordion>
+                <v-expansion-panel v-for="(item,i) in 3" :key="i" >
+                  <textColorCell
+                    v-bind="{
+                      index: i,
+                      text: dataProperty.changeColorText[i].text,
+                      pickerValue: dataProperty.changeColorText[i].color
+                    }"
+                    v-on:changedValue="updateChangeColorText" 
+                  />
+                </v-expansion-panel>
+              </v-expansion-panels>
+            </v-col>
           </v-row>
         </v-col>
       </ul>
@@ -43,6 +63,7 @@
 <script>
 import colorPicker from './MenuItems/ColorPicker.vue'
 import textFiled from './MenuItems/TextField.vue'
+import textColorCell from './MenuItems/TextColorTableCell.vue'
 
 export default {
   props: ['dataProperty', 'overlayHeight'],
@@ -81,6 +102,11 @@ export default {
       this.dataPropertyChanged.fontColors = value
       this.updateNotify()
     },
+    updateChangeColorText(value) {
+      this.dataPropertyChanged.changeColorText[value.index].text = value.text
+      this.dataPropertyChanged.changeColorText[value.index].color.hex = value.color.hex
+      this.updateNotify()
+    },
     updateListMargin(value) {
       this.dataPropertyChanged.listMargn = parseInt(value)
       this.updateNotify()
@@ -89,7 +115,7 @@ export default {
       this.$emit("updateDataProperty", this.dataPropertyChanged)
     }
   },
-  components: { colorPicker, textFiled }
+  components: { colorPicker, textFiled, textColorCell }
 
 };
 </script>
