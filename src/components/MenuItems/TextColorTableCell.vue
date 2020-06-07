@@ -7,12 +7,16 @@
                 solo
                 :value="targetText"
                 @change="changedText"
+                :color="this.pickerColorValue.hex"
             ></v-text-field>
           </v-expansion-panel-header>
         <v-expansion-panel-content id="content">
             <compact-picker 
             @input="changedValue"
             :value="pickerColorValue"
+            v-bind:style="{
+                'margin': 10 + 'px auto'
+            }">
             ></compact-picker>
         </v-expansion-panel-content>
     </div>

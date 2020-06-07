@@ -54,27 +54,10 @@ export default {
       fontColors: {
         hex: '#000000'
       },
-      changeColorText: [
-        {
-          text: "",
-          color: {
-            hex: '#000000'
-          }
-        },
-        {
-          text: "",
-          color: {
-            hex: '#000000'
-          }
-        },
-        {
-          text: "",
-          color: {
-            hex: '#000000'
-          }
-        }
-      ],
-      listMargn: 20
+      listMargn: 20,
+      changeColorTextLength: 3,
+      changeColorText: [],
+      version: 0
     },
     dataProperty: null
   }),
@@ -92,7 +75,7 @@ export default {
         if (this.dataProperty.changeColorText) {
           for (let j = 0; j<this.dataProperty.changeColorText.length; j++) {
             let changeTarget = this.dataProperty.changeColorText[j]
-            if (changeTarget !== undefined) {
+            if (changeTarget !== undefined && changeTarget.text !== '') {
               tempElement = tempElement.split(changeTarget.text).join(`<font color="${changeTarget.color.hex}">${changeTarget.text}</font>`)
             }
           }
@@ -163,13 +146,43 @@ export default {
     },
   },
   created() {
+    // localStorage.clear()
+    let isNeedInitialize = true
     if (localStorage.getItem('dataProperty')) {
       try {
-        this.dataProperty = JSON.parse(localStorage.getItem('dataProperty'));
-      // eslint-disable-next-line no-empty
-      } catch(e) { }
-    } else {
+        this.dataProperty = JSON.parse(localStorage.getItem('dataProperty'))
+        if (this.dataProperty.version != this.dataPropertyInit.version) {
+          // let newConstruction = this.dataPropertyInit
+          // for (let [key, value] of Object.entries(newConstruction)) {
+          //   for (let [propKey, propValue] of Object.entries(this.dataProperty)) {
+          //     if (key == propKey) {
+          //       if (propValue !== undefined) {
+          //         newConstruction
+          //       }
+          //     }
+          //   }
+          // }
+          // this.dataProperty = newConstruction
+          // console.log(this.dataProperty)
+        } else {
+          isNeedInitialize = false
+        }
+      } catch(e) {
+        localStorage.clear()
+      }
+    } 
+    if (isNeedInitialize) {
       this.dataProperty = this.dataPropertyInit
+      let arrayInit = []
+      for(let i = 0; i<this.dataPropertyInit.changeColorTextLength; i++) {
+        arrayInit[i] = {
+          text: '',
+          color: {
+            hex: '#000000'
+          }
+        }
+      }
+      this.dataProperty.changeColorText = arrayInit
     }
   },
   mounted () {

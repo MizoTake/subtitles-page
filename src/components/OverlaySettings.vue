@@ -41,7 +41,7 @@
               v-on:changedValue="updateFontColors" />
             <v-col cols="12" sm="6" md="3">
               <v-expansion-panels accordion>
-                <v-expansion-panel v-for="(item,i) in 3" :key="i" >
+                <v-expansion-panel v-for="(item,i) in this.dataProperty.changeColorTextLength" :key="i" >
                   <textColorCell
                     v-bind="{
                       index: i,
